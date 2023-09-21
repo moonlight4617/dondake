@@ -18,7 +18,7 @@ use Inertia\Inertia;
 |
 */
 
-Route::resource('item', ItemController::class)->middleware(['auth', 'verified']);
+Route::resource('items', ItemController::class)->middleware(['auth', 'verified']);
 
 Route::get('/inertia_test', function () {
     return Inertia::render('InertiaTest');
