@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\InertiaTestController;
 use App\Http\Controllers\ItemController;
+use App\Models\Customer;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -19,6 +21,8 @@ use Inertia\Inertia;
 */
 
 Route::resource('items', ItemController::class)->middleware(['auth', 'verified']);
+
+Route::resource('customers', CustomerController::class)->middleware(['auth', 'verified']);
 
 Route::get('/inertia_test', function () {
     return Inertia::render('InertiaTest');

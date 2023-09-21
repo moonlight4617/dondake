@@ -42,9 +42,6 @@ defineProps({
                         価格</th>
                       <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">販売状況
                       </th>
-                      <th
-                        class="w-10 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tr rounded-br">
-                      </th>
                     </tr>
                   </thead>
                   <tbody>
