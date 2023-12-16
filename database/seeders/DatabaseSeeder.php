@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Purchase;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,7 +16,22 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call([
+            UserSeeder::class,
+            ItemSeeder::class,
+        ]);
+
         // \App\Models\User::factory(10)->create();
+        \App\Models\Customer::factory(100)->create();
+
+        $items = \App\Models\Item::all();
+        Purchase::factory(50)->create()
+            ->each(function (Purchase $purchase) use ($items) {
+                $purchase->items()->attach(
+                    $items->random(rand(1, 3))->pluck('id')->toArray(),
+                    ['quantity' => rand(1, 5)]
+                );
+            });
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
