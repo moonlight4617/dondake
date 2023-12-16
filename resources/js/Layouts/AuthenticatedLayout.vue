@@ -28,16 +28,13 @@ const showingNavigationDropdown = ref(false);
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Dashboard
+                                    Home
                                 </NavLink>
                                 <NavLink :href="route('items.index')" :active="route().current('items.index')">
                                     商品一覧
                                 </NavLink>
-                                <NavLink :href="route('customers.index')" :active="route().current('customers.index')">
-                                    顧客一覧
-                                </NavLink>
                                 <NavLink :href="route('purchases.create')" :active="route().current('purchases.create')">
-                                    購入
+                                    販売登録
                                 </NavLink>
                             </div>
                         </div>
@@ -63,9 +60,9 @@ const showingNavigationDropdown = ref(false);
                                     </template>
 
                                     <template #content>
-                                        <DropdownLink :href="route('profile.edit')"> Profile </DropdownLink>
+                                        <DropdownLink :href="route('profile.edit')">プロフィール</DropdownLink>
                                         <DropdownLink :href="route('logout')" method="post" as="button">
-                                            Log Out
+                                            ログアウト
                                         </DropdownLink>
                                     </template>
                                 </Dropdown>
@@ -120,9 +117,9 @@ const showingNavigationDropdown = ref(false);
                         </div>
 
                         <div class="mt-3 space-y-1">
-                            <ResponsiveNavLink :href="route('profile.edit')"> Profile </ResponsiveNavLink>
+                            <ResponsiveNavLink :href="route('profile.edit')">プロフィール</ResponsiveNavLink>
                             <ResponsiveNavLink :href="route('logout')" method="post" as="button">
-                                Log Out
+                                ログアウト
                             </ResponsiveNavLink>
                         </div>
                     </div>
