@@ -5,12 +5,15 @@ import { reactive } from 'vue';
 import { Inertia } from '@inertiajs/inertia';
 
 defineProps({
-  errors: Object
+  errors: Object,
+  categories: Array
 })
 
 const form = reactive({
+  category: null,
   name: null,
   price: null,
+  cost: null,
   memo: null
 })
 
@@ -20,7 +23,7 @@ const storeItem = () => {
 </script>
 
 <template>
-  <Head title="Dashboard" />
+  <Head title="商品登録" />
 
   <AuthenticatedLayout>
     <template #header>
@@ -46,10 +49,30 @@ const storeItem = () => {
                       </div>
                       <div class="p-2 w-full">
                         <div class="relative">
-                          <label for="price" class="leading-7 text-sm text-gray-600">価格</label>
+                          <label for="category" class="leading-7 text-sm text-gray-600">カテゴリー</label>
+                          <select id="category" name="category" v-model="form.category"
+                            class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                            <option v-for="category in categories" :key="category.id" :value="category.id">
+                              {{ category.name }}
+                            </option>
+                          </select>
+                          <div v-if="errors.category">{{ errors.category }}</div>
+                        </div>
+                      </div>
+                      <div class="p-2 w-full">
+                        <div class="relative">
+                          <label for="price" class="leading-7 text-sm text-gray-600">販売価格(税抜)</label>
                           <input type="number" id="price" name="price" v-model="form.price"
                             class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                           <div v-if="errors.price">{{ errors.price }}</div>
+                        </div>
+                      </div>
+                      <div class="p-2 w-full">
+                        <div class="relative">
+                          <label for="cost" class="leading-7 text-sm text-gray-600">仕入価格(税抜)</label>
+                          <input type="number" id="cost" name="cost" v-model="form.cost"
+                            class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                          <div v-if="errors.cost">{{ errors.cost }}</div>
                         </div>
                       </div>
                       <div class="p-2 w-full">
