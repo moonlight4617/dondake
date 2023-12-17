@@ -17,19 +17,39 @@ class ItemSeeder extends Seeder
     {
         DB::table('items')->insert([
             [
-                'name' => 'カット',
-                'memo' => 'カットの詳細',
-                'price' => 4500,
+                'category_id' => '1',
+                'name' => '生食パン',
+                'price' => 1000,
+                'cost' => 420,
+                'memo' => 'プレーンタイプの食パン',
             ],
             [
-                'name' => 'カラー',
-                'memo' => 'カラーの詳細',
-                'price' => 7000,
+                'category_id' => '1',
+                'name' => '山形食パン',
+                'price' => 900,
+                'cost' => 320,
+                'memo' => 'イギリスパン',
             ],
             [
-                'name' => 'パーマ',
-                'memo' => 'パーマの詳細',
-                'price' => 8000,
+                'category_id' => '3',
+                'name' => '抹茶小豆食パン',
+                'price' => 900,
+                'cost' => 450,
+                'memo' => '',
+            ],
+            [
+                'category_id' => '2',
+                'name' => '枝豆チーズ食パン',
+                'price' => 900,
+                'cost' => 380,
+                'memo' => '期間限定',
+            ],
+            [
+                'category_id' => '4',
+                'name' => 'カレーパン',
+                'price' => 300,
+                'cost' => 180,
+                'memo' => '期間限定',
             ],
         ]);
     }

@@ -19,9 +19,9 @@ return new class extends Migration
                 ->constrained('categories')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->string('name');
-            $table->integer('price');
-            $table->integer('cost');
+            $table->string('name', 50);
+            $table->unsignedInteger('price')->nullable();
+            $table->unsignedInteger('cost')->nullable();
             $table->string('memo')->nullable();
             $table->timestamps();
         });
