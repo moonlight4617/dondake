@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\UpdateItemRequest;
+use App\Models\Category;
 use App\Models\Item;
 use Inertia\Inertia;
 
@@ -17,7 +18,10 @@ class ItemController extends Controller
     public function index()
     {
         return Inertia::render('Items/Index', [
-            'items' => Item::select('id', 'name', 'price', 'is_selling')->get()
+            'items' => Item::select('id', 'category_id', 'name', 'price', 'cost')
+                ->addSelect(['category_name' => Category::select('name')
+                    ->whereColumn('id', 'category_id')])
+                ->get()
         ]);
     }
 
@@ -28,7 +32,11 @@ class ItemController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Items/Create');
+        $categories = Category::select('id', 'name')->get();
+
+        return Inertia::render('Items/Create', [
+            'categories' => $categories
+        ]);
     }
 
     /**
@@ -40,8 +48,10 @@ class ItemController extends Controller
     public function store(StoreItemRequest $request)
     {
         Item::create([
+            'category_id' => $request->category,
             'name' => $request->name,
             'price' => $request->price,
+            'cost' => $request->cost,
             'memo' => $request->memo,
         ]);
 

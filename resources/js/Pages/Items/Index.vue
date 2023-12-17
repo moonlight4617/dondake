@@ -36,11 +36,15 @@ defineProps({
                       <th
                         class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">
                         No.</th>
-                      <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">メニュー
+                      <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">カテゴリー
+                      </th>
+                      <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">商品
                       </th>
                       <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
-                        価格</th>
-                      <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">販売状況
+                        販売価格</th>
+                      <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
+                        仕入価格</th>
+                      <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
                       </th>
                     </tr>
                   </thead>
@@ -49,12 +53,10 @@ defineProps({
                       <Link :href="route('items.show', { item: item.id })" class="text-indigo-800">
                       <td class="px-4 py-3">{{ item.id }}</td>
                       </Link>
+                      <td class="px-4 py-3">{{ item.category_name }}</td>
                       <td class="px-4 py-3">{{ item.name }}</td>
                       <td class="px-4 py-3">{{ item.price }}</td>
-                      <td class="px-4 py-3">
-                        <span v-if="item.is_selling === 1">販売中</span>
-                        <span v-if="item.is_selling === 0">停止中</span>
-                      </td>
+                      <td class="px-4 py-3">{{ item.cost }}</td>
                     </tr>
                   </tbody>
                 </table>
