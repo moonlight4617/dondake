@@ -3,7 +3,8 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link } from '@inertiajs/inertia-vue3';
 
 defineProps({
-  item: Object
+  item: Object,
+  category: String
 })
 </script>
 
@@ -34,10 +35,28 @@ defineProps({
                     </div>
                     <div class="p-2 w-full">
                       <div class="relative">
-                        <label for="price" class="leading-7 text-sm text-gray-600">価格</label>
+                        <label class="leading-7 text-sm text-gray-600">カテゴリー</label>
+                        <div type="text"
+                          class="w-full bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8">
+                          {{ category }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="p-2 w-full">
+                      <div class="relative">
+                        <label for="price" class="leading-7 text-sm text-gray-600">販売価格</label>
                         <div type="number" id="price"
                           class="w-full bg-opacity-50 rounded border border-gray-300 text-base outline-none text-gray-700 py-1 px-3 leading-8">
                           {{ item.price }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="p-2 w-full">
+                      <div class="relative">
+                        <label for="price" class="leading-7 text-sm text-gray-600">仕入価格</label>
+                        <div type="number" id="price"
+                          class="w-full bg-opacity-50 rounded border border-gray-300 text-base outline-none text-gray-700 py-1 px-3 leading-8">
+                          {{ item.cost }}
                         </div>
                       </div>
                     </div>
@@ -47,16 +66,6 @@ defineProps({
                         <div
                           class="w-full bg-opacity-50 rounded border border-gray-300 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6">
                           {{ item.memo }}
-                        </div>
-                      </div>
-                    </div>
-                    <div class="p-2 w-full">
-                      <div class="relative">
-                        <label class="leading-7 text-sm text-gray-600">販売状況</label>
-                        <div
-                          class="w-full bg-opacity-50 rounded border border-gray-300 text-base outline-none text-gray-700 py-1 px-3 leading-8">
-                          <span v-if="item.is_selling === 1">販売中</span>
-                          <span v-if="item.is_selling === 0">停止中</span>
                         </div>
                       </div>
                     </div>

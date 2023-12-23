@@ -36,9 +36,9 @@ defineProps({
                       <th
                         class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">
                         No.</th>
-                      <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">カテゴリー
-                      </th>
                       <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">商品
+                      </th>
+                      <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">カテゴリー
                       </th>
                       <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
                         販売価格</th>
@@ -50,11 +50,11 @@ defineProps({
                   </thead>
                   <tbody>
                     <tr v-for="item in items" :key="item.id">
-                      <Link :href="route('items.show', { item: item.id })" class="text-indigo-800">
                       <td class="px-4 py-3">{{ item.id }}</td>
+                      <Link :href="route('items.edit', { item: item.id })" class="text-indigo-800">
+                      <td class="px-4 py-3">{{ item.name }}</td>
                       </Link>
                       <td class="px-4 py-3">{{ item.category_name }}</td>
-                      <td class="px-4 py-3">{{ item.name }}</td>
                       <td class="px-4 py-3">{{ item.price }}</td>
                       <td class="px-4 py-3">{{ item.cost }}</td>
                     </tr>
