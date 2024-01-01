@@ -26,9 +26,10 @@ return new class extends Migration
             $table->unsignedInteger('sale_price')->nullable();
             $table->unsignedInteger('quantity');
             $table->unsignedInteger('sale_cost')->nullable();
-            $table->date('sale_date');
-            $table->tinyInteger('temperature')->nullable();
-            $table->tinyInteger('weather')->nullable();
+            $table->foreignId('temperature_id')
+                ->constrained('temperatures')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

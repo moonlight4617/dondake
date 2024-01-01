@@ -6,6 +6,8 @@ use App\Http\Requests\StoreSaleRequest;
 use App\Http\Requests\UpdateSaleRequest;
 use App\Models\Item;
 use App\Models\Sale;
+use App\Models\Temperature;
+use Illuminate\Database\QueryException;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\DB;
 
@@ -19,7 +21,22 @@ class SaleController extends Controller
      */
     public function index()
     {
-        //
+        $sales_data = Temperature::select(
+            'sale_date',
+            'temperature',
+            'weather',
+            'item_id',
+            DB::raw('SUM(sales.sale_price * sales.quantity) as sales'),
+            DB::raw('SUM(sales.sale_cost * sales.quantity) as costs')
+        )
+            ->leftJoin('sales', 'temperatures.id', '=', 'sales.temperature_id')
+            ->groupBy('temperatures.sale_date', 'sales.item_id', 'temperatures.temperature', 'temperatures.weather')
+            ->get();
+
+        return Inertia::render(
+            'Sales/Index',
+            ['sales_data' => $sales_data,]
+        );
     }
 
     /**
@@ -44,16 +61,35 @@ class SaleController extends Controller
      */
     public function store(StoreSaleRequest $request)
     {
-        foreach ($request->items as $item) {
-            Sale::create([
-                'user_id' => $request->user()->id,
-                'item_id' => $item["id"],
-                'sale_price' => $item["price"],
-                'quantity' => $item["quantity"],
-                'sale_cost' => $item["cost"],
-                'sale_date' => $request->date,
-                'temperature' => $request->temperature,
-                'weather' => $request->weather,
+        try {
+            DB::transaction(
+                function () use ($request) {
+                    Temperature::updateOrInsert(
+                        ['sale_date' => $request->date],
+                        [
+                            'temperature' => $request->temperature,
+                            'weather' => $request->weather,
+                        ]
+                    );
+
+                    $temperature = Temperature::where('sale_date', $request->date)->first();
+
+                    foreach ($request->items as $item) {
+                        Sale::create([
+                            'user_id' => $request->user()->id,
+                            'item_id' => $item["id"],
+                            'temperature_id' => $temperature->id,
+                            'sale_price' => $item["price"],
+                            'quantity' => $item["quantity"],
+                            'sale_cost' => $item["cost"],
+                        ]);
+                    }
+                }
+            );
+        } catch (QueryException $e) {
+            return to_route('sales.create')->with([
+                'message' => '登録に失敗しました',
+                'status' => 'error'
             ]);
         }
 

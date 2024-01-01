@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Temperature;
 
 class Sale extends Model
 {
@@ -12,11 +13,14 @@ class Sale extends Model
     protected $fillable = [
         'user_id',
         'item_id',
+        'temperature_id',
         'sale_price',
         'quantity',
         'sale_cost',
-        'sale_date',
-        'temperature',
-        'weather',
     ];
+
+    public function temperature()
+    {
+        return $this->belongsTo(Temperature::class);
+    }
 }

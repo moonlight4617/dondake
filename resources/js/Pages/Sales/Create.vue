@@ -4,7 +4,7 @@ import { Head } from '@inertiajs/inertia-vue3';
 import { getToday } from '@/common';
 import { Inertia } from '@inertiajs/inertia';
 import { computed, onMounted, reactive, ref } from 'vue';
-import MicroModal from '@/Components/MicroModal.vue';
+import { weatherList } from '../../enum'
 
 const props = defineProps({
   errors: Object,
@@ -18,25 +18,7 @@ const form = reactive({
   items: []
 })
 
-console.log(props.errors)
-
 const itemList = ref([]);
-
-// 0~10が格納された配列
-// const quantity = [...Array(10)].map((_, i) => i)
-
-// TODO: 後ほど別ファイル移行
-const weatherList = {
-  0: "-未選択-",
-  1: "晴れ",
-  2: "曇り",
-  3: "雨",
-  4: "晴れ/曇り",
-  5: "晴れ/雨",
-  6: "曇り/雨",
-  7: "雪",
-  8: "台風",
-}
 
 const totalValues = computed(() => {
   let totalPrice = 0
@@ -135,7 +117,7 @@ onMounted(() => {
                             </tr>
                           </thead>
                           <tbody>
-                            <tr v-for=" item  in  itemList " :key="item.id">
+                            <tr v-for="item  in  itemList" :key="item.id">
                               <td class="px-4 py-3">{{ item.id }}</td>
                               <td class="px-4 py-3">{{ item.name }}</td>
                               <td class="px-4 py-3">
@@ -150,15 +132,15 @@ onMounted(() => {
                                 <input type="number" min="0" id="quantity" name="quantity" v-model="item.quantity"
                                   class="bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 outline-none text-gray-700 transition-colors duration-200 ease-in-out w-20">
                               </td>
-                              <td class="px-4 py-3">{{ (item.price - item.cost) * item.quantity }}</td>
+                              <td class="px-4 py-3">{{ ((item.price - item.cost) * item.quantity).toLocaleString() }}</td>
                             </tr>
                             <tr class="border-t-2">
                               <td class="pt-4"></td>
                               <td class="pt-4">計</td>
-                              <td class="pt-4">{{ totalValues.totalPrice }}</td>
-                              <td class="pt-4">{{ totalValues.totalCost }}</td>
+                              <td class="pt-4">{{ totalValues.totalPrice.toLocaleString() }}</td>
+                              <td class="pt-4">{{ totalValues.totalCost.toLocaleString() }}</td>
                               <td class="pt-4"></td>
-                              <td class="pt-4">{{ totalValues.totalProfit }}</td>
+                              <td class="pt-4">{{ totalValues.totalProfit.toLocaleString() }}</td>
                             </tr>
                           </tbody>
                         </table>
