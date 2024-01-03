@@ -30,7 +30,6 @@ const totalValues = computed(() => {
     aggregated[data.sale_date].weather = parseInt(data.weather);
   });
 
-  console.log(Object.values(aggregated))
   return Object.values(aggregated);
 })
 
