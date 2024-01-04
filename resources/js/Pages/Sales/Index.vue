@@ -1,37 +1,50 @@
 <script setup>
+import { computed, onMounted, reactive, ref, watch } from 'vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link } from '@inertiajs/inertia-vue3';
 import FlashMessage from '@/Components/FlashMessage.vue';
-import { computed } from 'vue';
-import { weatherList } from '../../enum'
+import SalesTable from '@/Parts/SalesTable.vue';
+import DisplayYearMonth from '@/Parts/DisplayYearMonth.vue';
+import { getDataPerMonth, previousMonth, nextMonth } from '../../fetchAndDisplayYearMonth';
 
 const props = defineProps({
   sales_data: Array,
 })
 
+const data = reactive({
+  data: [],
+});
+const initialDisplay = () => {
+  data.data = props.sales_data;
+}
 
-const totalValues = computed(() => {
-  const aggregated = {};
+initialDisplay();
 
-  props.sales_data.forEach(data => {
-    if (!aggregated[data.sale_date]) {
-      aggregated[data.sale_date] = {
-        sale_date: data.sale_date,
-        temperature: 0,
-        weather: 0,
-        totalSales: 0,
-        totalCosts: 0
-      };
-    }
-
-    aggregated[data.sale_date].totalSales += parseInt(data.sales);
-    aggregated[data.sale_date].totalCosts += parseInt(data.costs);
-    aggregated[data.sale_date].temperature = parseInt(data.temperature);
-    aggregated[data.sale_date].weather = parseInt(data.weather);
-  });
-
-  return Object.values(aggregated);
+const displayMonth = computed(() => {
+  return `${yearRef.value}/${monthRef.value}`
 })
+
+const now = new Date();
+const yearRef = ref(now.getFullYear());
+const monthRef = ref(now.getMonth() + 1);
+
+const displayNextMonthFlag = ref(false)
+
+const previous = async () => {
+  await changeYearMonth(previousMonth)
+}
+
+const next = async () => {
+  await changeYearMonth(nextMonth)
+}
+
+const changeYearMonth = async (direction) => {
+  const { displayFlag, year, month } = direction(yearRef.value, monthRef.value);
+  displayNextMonthFlag.value = displayFlag
+  yearRef.value = year
+  monthRef.value = month
+  data.data = await getDataPerMonth(yearRef.value, monthRef.value)
+}
 
 </script>
 
@@ -58,39 +71,9 @@ const totalValues = computed(() => {
                   販売登録
                   </Link>
                 </div>
-                <table class="table-auto w-full text-left whitespace-no-wrap">
-                  <thead>
-                    <tr>
-                      <th
-                        class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">
-                        日付</th>
-                      <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">天気
-                      </th>
-                      <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">気温
-                      </th>
-                      <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">売上
-                      </th>
-                      <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">仕入
-                      </th>
-                      <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
-                        粗利益</th>
-                      <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="data in totalValues" :key="data.sale_date">
-                      <!-- <Link :href="route('items.edit', { item: item.id })" class="text-indigo-800"> -->
-                      <td class="px-4 py-3">{{ data.sale_date }}</td>
-                      <!-- </Link> -->
-                      <td class="px-4 py-3">{{ weatherList[data.weather] }}</td>
-                      <td class="px-4 py-3">{{ data.temperature }}</td>
-                      <td class="px-4 py-3">{{ data.totalSales.toLocaleString() }}</td>
-                      <td class="px-4 py-3">{{ data.totalCosts.toLocaleString() }}</td>
-                      <td class="px-4 py-3">{{ (data.totalSales - data.totalCosts).toLocaleString() }}</td>
-                    </tr>
-                  </tbody>
-                </table>
+                <DisplayYearMonth :previousMonth="previous" :nextMonth="next" :displayMonth="displayMonth"
+                  :displayNextMonthFlag="displayNextMonthFlag" />
+                <SalesTable :sales_data=sales_data />
               </div>
             </div>
           </section>

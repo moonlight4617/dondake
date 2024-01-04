@@ -11,7 +11,6 @@ use Illuminate\Database\QueryException;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\DB;
 
-
 class SaleController extends Controller
 {
     /**

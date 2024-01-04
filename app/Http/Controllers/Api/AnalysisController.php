@@ -1,32 +1,26 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Models\Temperature;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
-use Inertia\Inertia;
+use Illuminate\Support\Facades\Log;
 
-class ChartController extends Controller
+class AnalysisController extends Controller
 {
-    /**
-     * Handle the incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function __invoke()
+    public function index(Request $request)
     {
-        $today = Carbon::now();
-
-        $thisYear = $today->year;
-        $thisMonth = $today->month;
-
-        $targetStartDate = Carbon::parse($thisYear . "-" . $thisMonth);
+        $targetStartDate = Carbon::parse($request->targetYear . "-" . $request->targetMonth);
         $targetEndDate = $targetStartDate->copy()->endOfMonth();
+        // Log::debug($targetStartDate);
+        // Log::debug($targetEndDate);
 
-        $sales_data = Temperature::select(
+        // $temperature = Temperature::whereBetween("sale_date", [$targetStartDate, $targetEndDate])->get();
+        $sale_data = Temperature::select(
             'sale_date',
             'temperature',
             'weather',
@@ -37,12 +31,11 @@ class ChartController extends Controller
             ->whereBetween("sale_date", [$targetStartDate, $targetEndDate])
             ->leftJoin('sales', 'temperatures.id', '=', 'sales.temperature_id')
             ->groupBy('temperatures.sale_date', 'sales.item_id', 'temperatures.temperature', 'temperatures.weather')
-            ->get()
-            ->toArray();
+            ->get();
+        // Log::debug($temperature);
 
-        return Inertia::render(
-            'Dashboard',
-            ['sales_data' => $sales_data,]
-        );
+        return response()->json([
+            'data' => $sale_data
+        ], Response::HTTP_OK);
     }
 }
