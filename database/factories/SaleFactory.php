@@ -17,7 +17,12 @@ class SaleFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'user_id' => 1,
+            'item_id' => $this->faker->numberBetween(1, 5),
+            'sale_price' => $this->faker->randomElement([1000, 900, 800, 2000, 2200]),
+            'quantity' => $this->faker->numberBetween(1, 30),
+            'sale_cost' => $this->faker->randomElement([320, 400, 480, 580]),
+            'temperature_id' => $this->faker->numberBetween(1, 60),
         ];
     }
 }

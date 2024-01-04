@@ -13,10 +13,10 @@ const aggregateSalesData = (data) => {
     }
 
     aggregated[data.sale_date].sale_date = data.sale_date;
-    aggregated[data.sale_date].totalSales += parseInt(data.sales);
-    aggregated[data.sale_date].totalCosts += parseInt(data.costs);
-    aggregated[data.sale_date].temperature = parseInt(data.temperature);
-    aggregated[data.sale_date].weather = parseInt(data.weather);
+    aggregated[data.sale_date].totalSales += data.sales ? parseInt(data.sales) : 0;
+    aggregated[data.sale_date].totalCosts += data.costs ? parseInt(data.costs) : 0;
+    aggregated[data.sale_date].temperature = data.temperature ? parseInt(data.temperature) : 0;
+    aggregated[data.sale_date].weather = data.weather ? parseInt(data.weather) : 0;
   });
 
   return Object.values(aggregated);
