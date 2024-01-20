@@ -33,8 +33,11 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink :href="route('items.index')" :active="route().current('items.index')">
                                     商品一覧
                                 </NavLink>
-                                <NavLink :href="route('purchases.create')" :active="route().current('purchases.create')">
+                                <NavLink :href="route('sales.create')" :active="route().current('sales.create')">
                                     販売登録
+                                </NavLink>
+                                <NavLink :href="route('sales.index')" :active="route().current('sales.index')">
+                                    販売一覧
                                 </NavLink>
                             </div>
                         </div>
@@ -94,16 +97,16 @@ const showingNavigationDropdown = ref(false);
                 <div :class="{ block: showingNavigationDropdown, hidden: !showingNavigationDropdown }" class="sm:hidden">
                     <div class="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                            Dashboard
+                            Home
                         </ResponsiveNavLink>
                         <ResponsiveNavLink :href="route('items.index')" :active="route().current('items.index')">
                             商品一覧
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('customers.index')" :active="route().current('customers.index')">
-                            顧客一覧
+                        <ResponsiveNavLink :href="route('sales.create')" :active="route().current('sales.create')">
+                            販売登録
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('purchases.create')" :active="route().current('purchases.create')">
-                            購入
+                        <ResponsiveNavLink :href="route('sales.index')" :active="route().current('sales.index')">
+                            販売一覧
                         </ResponsiveNavLink>
                     </div>
 

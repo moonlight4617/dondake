@@ -164,7 +164,8 @@ return [
     'address' => '住所',
     'birthday' => '生年月日',
     'gender' => '性別',
-    'memo' => '備考'
+    'memo' => '備考',
+    'items' => '商品',
   ],
 
 ];
