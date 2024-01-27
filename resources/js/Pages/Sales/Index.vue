@@ -73,7 +73,7 @@ const changeYearMonth = async (direction) => {
                 </div>
                 <DisplayYearMonth :previousMonth="previous" :nextMonth="next" :displayMonth="displayMonth"
                   :displayNextMonthFlag="displayNextMonthFlag" />
-                <SalesTable :sales_data=sales_data />
+                <SalesTable :sales_data=data.data />
               </div>
             </div>
           </section>

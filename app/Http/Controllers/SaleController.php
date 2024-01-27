@@ -10,6 +10,7 @@ use App\Models\Temperature;
 use Illuminate\Database\QueryException;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class SaleController extends Controller
 {
@@ -20,6 +21,14 @@ class SaleController extends Controller
      */
     public function index()
     {
+        $today = Carbon::now();
+
+        $thisYear = $today->year;
+        $thisMonth = $today->month;
+
+        $targetStartDate = Carbon::parse($thisYear . "-" . $thisMonth);
+        $targetEndDate = $targetStartDate->copy()->endOfMonth();
+
         $sales_data = Temperature::select(
             'sale_date',
             'temperature',
@@ -28,9 +37,11 @@ class SaleController extends Controller
             DB::raw('SUM(sales.sale_price * sales.quantity) as sales'),
             DB::raw('SUM(sales.sale_cost * sales.quantity) as costs')
         )
+            ->whereBetween("sale_date", [$targetStartDate, $targetEndDate])
             ->leftJoin('sales', 'temperatures.id', '=', 'sales.temperature_id')
             ->groupBy('temperatures.sale_date', 'sales.item_id', 'temperatures.temperature', 'temperatures.weather')
-            ->get();
+            ->get()
+            ->toArray();
 
         return Inertia::render(
             'Sales/Index',
