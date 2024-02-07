@@ -7,7 +7,7 @@ import axios from 'axios';
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { weatherList } from '../enum';
-import SalesTable from '@/parts/SalesTable.vue';
+import SalesTable from '@/Parts/SalesTable.vue';
 import { aggregateSalesData } from '../aggregate';
 import DisplayYearMonth from '@/Parts/DisplayYearMonth.vue';
 import { getDataPerMonth, previousMonth, nextMonth } from '../fetchAndDisplayYearMonth';
