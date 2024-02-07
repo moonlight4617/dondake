@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChartController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\PurchaseController;
@@ -24,6 +25,8 @@ Route::resource('sales', SaleController::class)->middleware(['auth', 'verified']
 // Route::resource('customers', CustomerController::class)->middleware(['auth', 'verified']);
 
 Route::resource('purchases', PurchaseController::class)->middleware(['auth', 'verified']);
+
+Route::resource('categories', CategoryController::class)->middleware(['auth', 'verified']);
 
 Route::get('/', [ChartController::class, '__invoke'])->middleware(['auth', 'verified'])->name('dashboard');
 
