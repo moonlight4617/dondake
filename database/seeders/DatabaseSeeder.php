@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
             ItemSeeder::class,
         ]);
 
-        Temperature::factory(100)
+        Temperature::factory(180)
             ->has(Sale::factory()->count(3))
             ->create();
     }
