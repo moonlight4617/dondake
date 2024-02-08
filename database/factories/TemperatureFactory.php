@@ -17,7 +17,7 @@ class TemperatureFactory extends Factory
     public function definition()
     {
         return [
-            'sale_date' => $this->faker->dateTimeBetween('-3 month', 'now'),
+            'sale_date' => $this->faker->dateTimeBetween('-6 month', "28 February 2024"),
             'temperature' => $this->faker->numberBetween(0, 15),
             'weather' => $this->faker->numberBetween(1, 8),
         ];

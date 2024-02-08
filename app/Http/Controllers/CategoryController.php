@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
+use Inertia\Inertia;
 
 class CategoryController extends Controller
 {
@@ -15,7 +16,10 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render(
+            'Categories/Index',
+            ['categories' => Category::select('id', 'name')->get()]
+        );
     }
 
     /**
@@ -25,7 +29,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Categories/Create');
     }
 
     /**
@@ -36,7 +40,14 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        //
+        Category::create([
+            'name' => $request->category,
+        ]);
+
+        return to_route('categories.index')->with([
+            'message' => '登録しました',
+            'status' => 'success'
+        ]);
     }
 
     /**
